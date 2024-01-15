@@ -1,6 +1,6 @@
 #ifndef __GAME_CONFIG_H
 #define __GAME_CONFIG_H
-//testi
+
 class GameConfig
 {
 public:
