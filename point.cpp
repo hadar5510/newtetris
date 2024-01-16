@@ -31,7 +31,9 @@ void Point::move(GameConfig::eKeys key)
 		diff_x = 1;
 		diff_y = 1;
 		break;
-
+	default:
+		diff_x = 0;
+		diff_y = 1;
 	}
 	
 	x += diff_x;
