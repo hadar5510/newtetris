@@ -1,17 +1,14 @@
 #pragma once
 
 
-class shapes;
+#include "shapes.h"
 
 class tetrisGame
 {
-	shapes* allSnakes;
-	int numOfSnakes;
+	Shape shape;
 
 public:
-	void init(int num);
+	void init();
 	void run();
 	void freeMemory();
-
 };
-

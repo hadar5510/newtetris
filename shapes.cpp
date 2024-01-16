@@ -8,11 +8,11 @@
 #define RIGHTMOVE 2
 #define DOWNMOVE 0
 
-void shapes::init(const Point& head, char ch, int color)
+void Shape::init(char ch, int color)
 {
 	this->ch = ch;
 	this->backgroundcolor = color;
-	body[0] = head;
+	body[0] = Point(0,0);
 	body[0].draw(ch, backgroundcolor);
 	for (int i = 1; i < 4; i++)
 	{
@@ -23,42 +23,44 @@ void shapes::init(const Point& head, char ch, int color)
 }
 
 
-void shapes::move(GameConfig::eKeys direction)
+void Shape::move(GameConfig::eKeys direction)
 {
 	bool valid = true;
 
-	//switch (direction)
-	//{
-	//case GameConfig::eKeys::LEFT:
-	//	valid = legalmove(LEFTMOVE);
-	//	break;
-	//case GameConfig::eKeys::RIGHT:
-	//	valid = true;
-	//	break;
-	//case GameConfig::eKeys::DOWN:
-	//	valid = true;
-	//	break;
-	//}
+	switch (direction)
+	{
+	case GameConfig::eKeys::LEFT:
+		valid = legalmove(LEFTMOVE);
+		break;
+	case GameConfig::eKeys::RIGHT:
+		valid = true;
+		break;
+	}
 
 	if (valid)
 	{
-		for (int i = 3; i >= 0; i--)
+		//erasing shape
+		for (int i = 3; i >= 0; i--)	
 		{
 			body[i].draw(' ', GameConfig::COLORS[0]);
-
 		}
+		//re draw shape
 		for (int i = 3; i >= 0; i--)
 		{
-
 			body[i].move(direction);
 			body[i].draw(ch, backgroundcolor);
 		}
 
 	}
 
-	
-}
 
+}
+bool Shape::legalmove(int move)
+{
+
+
+	return true;
+}
 
 //bool shapes::legalmove(int move)
 //{

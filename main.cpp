@@ -9,14 +9,13 @@ using namespace std;
 #include "point.h"
 #include "shapes.h"
 #include "tetrisGame.h"
-
+#include "player.h"
 
 void tetrisRun();
 
 
 int main()
 {
-	
 	tetrisRun();
 
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[0]);
@@ -27,8 +26,9 @@ int main()
 void tetrisRun()
 {
 	tetrisGame theGame;
+	Player(GameConfig::MIN_X + GameConfig::GAME_WIDTH / 2);
 
-	theGame.init(1);
+	theGame.init();
 	theGame.run();
-	theGame.freeMemory();
+	//theGame.freeMemory();
 }

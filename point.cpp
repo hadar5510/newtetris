@@ -25,22 +25,15 @@ void Point::move(GameConfig::eKeys key)
 	{
 	case GameConfig::eKeys::LEFT:
 		diff_x = -1;
-		diff_y = 0;
+		diff_y = 1;
 		break;
 	case GameConfig::eKeys::RIGHT:
 		diff_x = 1;
-		diff_y = 0;
-		break;
-	case GameConfig::eKeys::UP:
-		diff_x = 0;
-		diff_y = -1;
-		break;
-	case GameConfig::eKeys::DOWN:
-		diff_x = 0;
 		diff_y = 1;
 		break;
-	}
 
+	}
+	
 	x += diff_x;
 	if (x > GameConfig::GAME_WIDTH)
 		x = 1;

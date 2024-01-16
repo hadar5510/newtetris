@@ -4,7 +4,7 @@
 class GameConfig
 {
 public:
-	enum class eKeys { LEFT = 'a', RIGHT = 'd', UP = 'w', DOWN = 's', ESC = 27 };
+	enum class eKeys { LEFT = 'a', RIGHT = 'd', ROT_CLOCK = 'w', ROT_ANTI = 's',DROP = 'x', ESC = 27 };
 	static constexpr int GAME_WIDTH = 12;
 	static constexpr int GAME_HEIGHT = 18;
 

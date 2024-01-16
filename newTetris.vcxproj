@@ -129,7 +129,9 @@
   <ItemGroup>
     <ClCompile Include="gameConfig.cpp" />
     <ClCompile Include="general.cpp" />
+    <ClCompile Include="keyInputs.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="player.cpp" />
     <ClCompile Include="point.cpp" />
     <ClCompile Include="shapes.cpp" />
     <ClCompile Include="tetrisGame.cpp" />
@@ -137,6 +139,8 @@
   <ItemGroup>
     <ClInclude Include="gameConfig.h" />
     <ClInclude Include="general.h" />
+    <ClInclude Include="keyInputs.h" />
+    <ClInclude Include="player.h" />
     <ClInclude Include="point.h" />
     <ClInclude Include="shapes.h" />
     <ClInclude Include="tetrisGame.h" />
