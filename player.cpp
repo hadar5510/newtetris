@@ -20,9 +20,9 @@ void Player::makeMove(GameConfig::eKeys keyPressed)
 {
 	if(Player::legalMove(keyPressed))
 		this->currShape.move(keyPressed);
-	else if(keyPressed != GameConfig::eKeys::LEFT && keyPressed != GameConfig::eKeys::RIGHT) {
+	else if(keyPressed != GameConfig::eKeys::LEFT && keyPressed != GameConfig::eKeys::RIGHT) 
 		this->currShape = Shape('@', GameConfig::COLORS[4], Shape::ShapeType::LL, this->startingX);
-	}
+	
 
 }
 
