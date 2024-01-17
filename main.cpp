@@ -26,7 +26,7 @@ int main()
 void tetrisRun()
 {
 	tetrisGame theGame;
-	Player(GameConfig::MIN_X + GameConfig::GAME_WIDTH / 2);
+	//Player(GameConfig::MIN_X + GameConfig::GAME_WIDTH / 2);
 
 	theGame.init();
 	theGame.run();

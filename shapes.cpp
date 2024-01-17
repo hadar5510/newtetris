@@ -52,6 +52,7 @@ bool Shape::legalmove(int move)
 {
 	//todo
 
+
 	return true;
 }
 

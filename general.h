@@ -6,6 +6,6 @@
 void gotoxy(int, int);
 void clrscr();
 void drawBorder();
-char getCharAtPosition(int x, int y);
+//char getCharAtPosition(int x, int y);
 
 #endif // __GENERAL_H

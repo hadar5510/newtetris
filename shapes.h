@@ -11,13 +11,14 @@ public:
 	char ch;
 	int backgroundcolor;
 	int type; //1 is line 2 is cube
-	Shape(char ch, int color, Shape::ShapeType shapeType) {
+
+	Shape(char ch, int color, Shape::ShapeType shapeType, int offset) {
 		this->init(ch, color);
 
-		body[0] = Point((GameConfig::GAME_WIDTH / 2), 1);
-		body[1] = Point((GameConfig::GAME_WIDTH / 2), 2);
-		body[2] = Point((GameConfig::GAME_WIDTH / 2), 3);
-		body[3] = Point((GameConfig::GAME_WIDTH / 2) + 1, 3);
+		body[0] = Point(offset + (GameConfig::GAME_WIDTH / 2), 1);
+		body[1] = Point(offset + (GameConfig::GAME_WIDTH / 2), 2);
+		body[2] = Point(offset + (GameConfig::GAME_WIDTH / 2), 3);
+		body[3] = Point(offset + (GameConfig::GAME_WIDTH / 2) + 1, 3);
 		//switch (shapeType)
 		//{
 		//default:

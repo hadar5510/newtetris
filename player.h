@@ -1,6 +1,7 @@
 #ifndef __PLAYER_H
 #define __PLAYER_H
 #include "gameConfig.h"
+#include "shapes.h"
 
 class Player
 {
@@ -16,8 +17,11 @@ public:
 		startingX = x;
 	};
 
-	void initBoard();
+	Shape currShape;
 
+	void initBoard();
+	void makeMove(GameConfig::eKeys keyPressed);
+	bool legalMove(GameConfig::eKeys direction);
 };
 #endif
 
