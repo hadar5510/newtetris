@@ -1,33 +1,16 @@
-#include <conio.h> // for kbhit+getch
-#include <iostream>
-#include <stdbool.h>
-#include <Windows.h> // for Sleep and colors
-using namespace std;
-
 #include "general.h"
-#include "gameConfig.h"
-#include "point.h"
-#include "shapes.h"
-#include "tetrisGame.h"
-#include "player.h"
+#include <stdio.h>
+#include <windows.h> // for gotoxy
+#include <process.h> // for system
+#include <iostream>
 
-void tetrisRun();
+#include "game.h"
 
-
-int main()
+void main()
 {
-	tetrisRun();
-
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[0]);
-	gotoxy(0, GameConfig::GAME_HEIGHT + GameConfig::MIN_Y + 2);
-}
+	game game;
+	game.run();
 
 
-void tetrisRun()
-{
-	tetrisGame theGame;
 
-	theGame.init();
-	theGame.run();
-	//theGame.freeMemory();
 }

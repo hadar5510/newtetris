@@ -1,27 +1,39 @@
-#ifndef __PLAYER_H
-#define __PLAYER_H
-#include "gameConfig.h"
-#include "shapes.h"
+#pragma once
+#include "board.h"
+#include "shape.h"
+#include "general.h"
 
-class Player
+
+class player
 {
-	int boardState[18][12];
-	//keys?
-	int startingX;
-	int startingY = GameConfig::MIN_Y;
+	int minX, minY; //start of player board
+	char left, right, drop, rotateClock, rotateAntiClock;
+	int x, y; //lo yodim
+	bool flag;
 
 public:
+	board board;
+	shape currShape;
 
-	Player(int x) //middle point of each playerboard
-	{
-		startingX = x;
-	};
+	void init(int minX, int minY, char left, char right, char drop, char rotateClock, char rotateAntiClock, bool flag);
 
-	Shape currShape;
+	int getMinX() { return minX; }
+	int getMinY() { return minY; }
+	char getLeft() { return left; }
+	char getRight() { return right; }
+	char getDrop() { return drop; }
+	char getRotateClock() { return rotateClock; }
+	char getRotateAntiClock() { return rotateAntiClock; }
+	bool getFlag() { return flag; }
+	void setFlag(bool flag) { this->flag = flag; }
 
-	void initBoard();
-	void makeMove(GameConfig::eKeys keyPressed);
-	bool legalMove(GameConfig::eKeys direction);
+	//lo yodim
+	int getX() { return x; }
+	int getY() { return y; }
+	void setX(int x) { this->x = x; }
+	void setY(int y) { this->y = y; }
+
+
+	//functions
+	bool isGameOver();
 };
-#endif
-

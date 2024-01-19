@@ -1,11 +1,18 @@
 #ifndef __GENERAL_H
 #define __GENERAL_H
 
-#include "gameConfig.h"
 
-void gotoxy(int, int);
+enum class eKeys { LEFT = 'a', RIGHT = 'd', UP = 'w', DOWN = 's', ESC = 27 };
+static constexpr int GAME_WIDTH = 12;
+static constexpr int GAME_HEIGHT = 18;
+
+static constexpr int MIN_X = 30;
+static constexpr int MIN_Y = 6;
+
+static const int NUM_OF_COLORS;
+
+void gotoxy(int x, int y);
 void clrscr();
-void drawBorder();
-//char getCharAtPosition(int x, int y);
+char getCharAtPosition(int x, int y);
 
 #endif // __GENERAL_H

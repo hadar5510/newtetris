@@ -127,23 +127,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="gameConfig.cpp" />
+    <ClCompile Include="board.cpp" />
+    <ClCompile Include="menu.cpp" />
     <ClCompile Include="general.cpp" />
-    <ClCompile Include="keyInputs.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="point.cpp" />
-    <ClCompile Include="shapes.cpp" />
-    <ClCompile Include="tetrisGame.cpp" />
+    <ClCompile Include="shape.cpp" />
+    <ClCompile Include="game.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="gameConfig.h" />
+    <ClInclude Include="board.h" />
+    <ClInclude Include="menu.h" />
     <ClInclude Include="general.h" />
-    <ClInclude Include="keyInputs.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="point.h" />
-    <ClInclude Include="shapes.h" />
-    <ClInclude Include="tetrisGame.h" />
+    <ClInclude Include="shape.h" />
+    <ClInclude Include="game.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
