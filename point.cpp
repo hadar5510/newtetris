@@ -51,4 +51,4 @@ void point::draw(char ch, int backcolor)
 //		y = 1;
 //	else if (y == 0)
 //		y = GameConfig::GAME_HEIGHT;
-//
+//}

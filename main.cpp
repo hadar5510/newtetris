@@ -4,13 +4,15 @@
 #include <process.h> // for system
 #include <iostream>
 
-#include "game.h"
+//#include "game.h"
+#include "menu.h"
 
 void main()
 {
-	game game;
-	game.run();
+	menu menu;
+	
 
+	menu.gameMenu(false);
 
 
 }
