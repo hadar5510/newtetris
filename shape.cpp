@@ -1,7 +1,7 @@
 #include "shape.h"
 #define DOWN v
 
-
+//intializing shape
 void shape::init(int minX, int minY, int shapetype)
 {
 	this->type = shapetype;
@@ -34,7 +34,7 @@ void shape::init(int minX, int minY, int shapetype)
 		body[0] = point(minX + GAME_WIDTH / 2, minY);
 		body[1] = point(minX + GAME_WIDTH / 2 + 1, minY);
 		body[2] = point(minX + GAME_WIDTH / 2 - 1, minY);
-		body[3] = point(minX + GAME_WIDTH / 2, minY + 1); //chupchik
+		body[3] = point(minX + GAME_WIDTH / 2, minY + 1);	 //chupchik of T shape
 		break;
 	case 3: //I
 
@@ -76,9 +76,8 @@ void shape::init(int minX, int minY, int shapetype)
 
 }
 
-//player1.init(MIN_X, MIN_Y, 'a', 'd', 'x', 's', 'w', false);
-//player2.init(MIN_X * 2 + 12, MIN_Y, 'j', 'l', 'm', 'k', 'i', false);
 
+//updating board to the current position after moving
 void shape::move(char keyPressed)
 {
 
@@ -90,7 +89,6 @@ void shape::move(char keyPressed)
 			body[i].y = body[i].y + 1;
 		}
 	}
-
 
 
 	switch (keyPressed)
@@ -139,8 +137,7 @@ void shape::move(char keyPressed)
 }
 
 
-
-
+//rotate shape according to direction - NORTH/WEST/EAST/SOUTH
 void shape::rotate(int direction)
 {
 

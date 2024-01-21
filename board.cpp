@@ -1,6 +1,6 @@
 #include "board.h"
-#include <windows.h> // for gotoxy
-#include <process.h> // for system
+#include <windows.h> 
+#include <process.h> 
 #include <iostream>
 
 
@@ -80,6 +80,8 @@ void board::saveShape(shape shape, int x, int y)
 	}
 }
 
+
+
 void board::deleteShape(shape shape, int x, int y)
 {
 	int col, row;		//x = minX y = minY
@@ -126,6 +128,7 @@ void board::checkFullLines()
 }
 
 
+
 void board::deleteLine(int line)
 {
 
@@ -151,6 +154,7 @@ void board::deleteLine(int line)
 
 
 }
+
 
 
 bool board::checkShapeGoDown(shape shape, int minX, int minY)
@@ -192,8 +196,6 @@ bool board::checkShapeGoDown(shape shape, int minX, int minY)
 	return legal;
 
 }
-
-
 
 
 

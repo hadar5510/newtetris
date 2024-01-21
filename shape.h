@@ -22,10 +22,6 @@ public:
 
 	void init(int minX, int minY, int shapetype);
 
-	//void printShape(int x, int y, char ch, int minRow);
-
-
-	//void drop();
 	void rotate(int direction);
 
 	int getType() { return type; }

@@ -7,13 +7,13 @@
 #include <conio.h>
 #include <Windows.h>
 
-
 using namespace std;
+
 
 void menu::gameMenu(bool isPaused)
 {
 	player player1, player2;
-	game game1;
+	game game;
 	char ch;
 	bool gameFlag = true;
 	
@@ -48,7 +48,7 @@ void menu::gameMenu(bool isPaused)
 			player1.init(MIN_X, MIN_Y, 'A', 'D', 'X', 'S', 'W', false);
 			player2.init(MIN_X * 2 + 12, MIN_Y, 'J', 'L', 'M', 'K', 'I', false);
 
-			game1.run(player1, player2);
+			game.run(player1, player2);
 		}
 
 		
@@ -63,7 +63,6 @@ void menu::gameMenu(bool isPaused)
 			cout << " - Press anything to go back to menu -" << endl << endl;
 			ch = _getch();
 
-			//if(_kbhit)
 		}
 
 		if (ch == '9')		//EXIT
@@ -72,7 +71,4 @@ void menu::gameMenu(bool isPaused)
 		}
 	}
 	
-	
-
-
 }

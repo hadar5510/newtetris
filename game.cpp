@@ -16,44 +16,17 @@ using namespace std;
 void game::run(player& player1, player& player2)
 {
 	menu menu;
-	int minX1 = player1.getMinX();
-	int minY1 = player1.getMinY();
-	player1.board.drawBorder(minX1, minY1);
-
-	int minX2 = player2.getMinX();
-	int minY2 = player2.getMinY();
-	player2.board.drawBorder(minX2, minY2);
-
-	bool flag1 = player1.getFlag();
-	bool flag2 = player2.getFlag();
-
-	player1.board.init();
-	player2.board.init();
-
-
-	player1.board.printBoard(minX1, minY1);
-	player2.board.printBoard(minX2, minY2);
-
-	std::srand(static_cast<unsigned int>(std::time(nullptr)));
-
-
-	shape currshape1;
-	shape currshape2;
-
-	currshape1.init(minX1, minY1, std::rand() % 7);
-	currshape2.init(minX2, minY2, std::rand() % 7);
-
-	player1.currShape = currshape1;
-	player2.currShape = currshape2;
-
-
-	player1.board.saveShape(currshape1, minX1, minY1);
-	player2.board.saveShape(currshape2, minX2, minY2);
-
 
 	char keyPressed;
-	char p1char, p2char;
-	int goingDownCounter = 0;
+	int minX1, minY1, minX2, minY2, goingDownCounter = 0;
+	bool flag1, flag2;
+	shape currshape1, currshape2;
+
+	gameInitialization(player1, minX1, minY1, flag1, currshape1);
+
+	gameInitialization(player2, minX2, minY2, flag2, currshape2);
+
+
 
 	//THE GAME
 	while (flag1 == false && flag2 == false)
@@ -61,45 +34,10 @@ void game::run(player& player1, player& player2)
 
 		if (_kbhit())
 		{
-
 			keyPressed = toupper(_getch());
 
-			p1char = NULL;
-			p2char = NULL;
-
-			// buffer workaround
-			if (keyPressed == 'A' || keyPressed == 'S' || keyPressed == 'D' || keyPressed == 'W' || keyPressed == 'X') {
-				p1char = keyPressed;
-				while (_kbhit()) {
-					char ch = toupper(_getch());
-					if (ch == 'J' || ch == 'L' || ch == 'K' || ch == 'I' || ch == 'M') {
-						p2char = ch;
-						break;
-					}
-				}
-			}
-
-			if (keyPressed == 'J' || keyPressed == 'L' || keyPressed == 'K' || keyPressed == 'I' || keyPressed == 'M') {
-				p2char = keyPressed;
-				while (_kbhit()) {
-					char ch = toupper(_getch());
-					if (ch == 'A' || ch == 'S' || ch == 'D' || ch == 'W' || ch == 'X')
-					{
-						p1char = ch;
-						break;
-					}
-				}
-			}
-			while (_kbhit()) 		//clearing input buffer
-				char ch = _getch();
-
-			if(p1char != NULL)
-				playerTurn(player1, p1char);
+			gameturn(player1, player2, keyPressed);
 			
-			if(p2char != NULL)
-				playerTurn(player2, p2char);
-
-
 
 			if (keyPressed == 27)		//pausing game
 			{
@@ -120,34 +58,89 @@ void game::run(player& player1, player& player2)
 		goingDownCounter = (goingDownCounter + 1) % 20;		//going down every  seconds
 	
 
-
 		Sleep(17);
 	
 	}
 
-	//winner announce
-	system("cls");
-	gotoxy(MIN_X + GAME_WIDTH, 2);
-	if (flag1)
-		cout << "Player 1 LOST,  Player 2 is the WINNER";
+	//WINNER ANNOUNCEMENT
+	endOfGame(flag1);
 
-	else
-		cout << "Player 2 LOST,  Player 1 is the WINNER";
-
-	Sleep(1000);
-	gotoxy(MIN_X + GAME_WIDTH, 8);
-	cout << "Press any key to go back to menu";
-
-	while (_kbhit()) 		//clearing input buffer
-		char ch = _getch();
-	
-	char t = _getch();
-	
 	menu.gameMenu(false);		//start new game
-	
 }
 	
+
+void game::gameInitialization(player& currPlayer, int& minX, int& minY, bool& flag, shape& currshape)
+{
+	minX = currPlayer.getMinX();
+	minY = currPlayer.getMinY();
+	currPlayer.board.drawBorder(minX, minY);
+
+
+	flag = currPlayer.getFlag();
+
+
+	currPlayer.board.init();
+	currPlayer.board.init();
+
+
+	std::srand(static_cast<unsigned int>(std::time(nullptr)));
+
+
 	
+
+	currshape.init(minX, minY, std::rand() % 7);
+	
+
+	currPlayer.currShape = currshape;
+	
+
+	currPlayer.board.saveShape(currshape, minX, minY);
+
+
+}
+
+
+void game::gameturn(player& player1, player& player2,char keyPressed)
+{
+	
+
+	char p1char = NULL;
+	char p2char = NULL;
+
+	// buffer workaround
+	if (keyPressed == player1.getLeft() || keyPressed == player1.getRight() || keyPressed == player1.getRotateClock() || keyPressed == player1.getRotateAntiClock() || keyPressed == player1.getDrop()) {
+		p1char = keyPressed;
+		while (_kbhit()) {
+			char ch = toupper(_getch());
+			if (ch == 'J' || ch == 'L' || ch == 'K' || ch == 'I' || ch == 'M') {
+				p2char = ch;
+				break;
+			}
+		}
+	}
+
+	if (keyPressed == 'J' || keyPressed == 'L' || keyPressed == 'K' || keyPressed == 'I' || keyPressed == 'M') {
+		p2char = keyPressed;
+		while (_kbhit()) {
+			char ch = toupper(_getch());
+			if (ch == 'A' || ch == 'S' || ch == 'D' || ch == 'W' || ch == 'X')
+			{
+				p1char = ch;
+				break;
+			}
+		}
+	}
+	while (_kbhit()) 		//clearing input buffer
+		char ch = _getch();
+
+	if (p1char != NULL)
+		playerTurn(player1, p1char);
+
+	if (p2char != NULL)
+		playerTurn(player2, p2char);
+
+
+}
 
 void game::playerTurn(player& currPlayer, char keyPressed)
 {
@@ -220,4 +213,26 @@ void game::moveShapedown(player& currPlayer, shape currShape, bool& flag)
 		currPlayer.board.saveShape(currPlayer.currShape, minX, minY);
 		currPlayer.board.printBoard(minX, minY);
 	}
+}
+
+
+void game::endOfGame(bool flag1)
+{
+	system("cls");
+	gotoxy(MIN_X + GAME_WIDTH, 2);
+	if (flag1)
+		cout << "Player 1 LOST,  Player 2 is the WINNER";
+
+	else
+		cout << "Player 2 LOST,  Player 1 is the WINNER";
+
+	Sleep(1000);
+	gotoxy(MIN_X + GAME_WIDTH, 8);
+	cout << "Press any key to go back to menu";
+
+	while (_kbhit()) 		//clearing input buffer
+		char ch = _getch();
+
+	char t = _getch();
+
 }
