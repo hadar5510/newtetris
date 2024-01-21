@@ -2,6 +2,7 @@
 #include "point.h"
 #include "general.h"
 
+
 class player;
 
 class shape

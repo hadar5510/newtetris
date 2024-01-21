@@ -7,6 +7,7 @@
 
 using namespace std;
 
+//go to x y on cmd that are given
 void gotoxy(int x, int y)
 {
 	HANDLE hConsoleOutput;
@@ -18,8 +19,7 @@ void gotoxy(int x, int y)
 	SetConsoleCursorPosition(hConsoleOutput, dwCursorPosition);
 }
 
-
-
+//clears the screen of everything written on it
 void clrscr()
 {
 	system("cls");

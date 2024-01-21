@@ -68,7 +68,7 @@ void game::run(player& player1, player& player2)
 	menu.gameMenu(false);		//start new game
 }
 	
-
+//initializing players and drawing boards
 void game::gameInitialization(player& currPlayer, int& minX, int& minY, bool& flag, shape& currshape)
 {
 	minX = currPlayer.getMinX();
@@ -103,27 +103,30 @@ void game::gameInitialization(player& currPlayer, int& minX, int& minY, bool& fl
 void game::gameturn(player& player1, player& player2,char keyPressed)
 {
 	
-
 	char p1char = NULL;
 	char p2char = NULL;
 
 	// buffer workaround
-	if (keyPressed == player1.getLeft() || keyPressed == player1.getRight() || keyPressed == player1.getRotateClock() || keyPressed == player1.getRotateAntiClock() || keyPressed == player1.getDrop()) {
+	if (isItPlayersKeys(player1, keyPressed))
+	{
 		p1char = keyPressed;
-		while (_kbhit()) {
+		while (_kbhit()) 
+		{
 			char ch = toupper(_getch());
-			if (ch == 'J' || ch == 'L' || ch == 'K' || ch == 'I' || ch == 'M') {
+			if (isItPlayersKeys(player2, keyPressed))
+			{
 				p2char = ch;
 				break;
 			}
 		}
 	}
 
-	if (keyPressed == 'J' || keyPressed == 'L' || keyPressed == 'K' || keyPressed == 'I' || keyPressed == 'M') {
+	if (isItPlayersKeys(player2, keyPressed))
+	{
 		p2char = keyPressed;
 		while (_kbhit()) {
 			char ch = toupper(_getch());
-			if (ch == 'A' || ch == 'S' || ch == 'D' || ch == 'W' || ch == 'X')
+			if (isItPlayersKeys(player1, keyPressed))
 			{
 				p1char = ch;
 				break;
@@ -141,6 +144,15 @@ void game::gameturn(player& player1, player& player2,char keyPressed)
 
 
 }
+
+//returns if the keypressed is of the player that has been sent
+bool game::isItPlayersKeys(player& currPlayer, char keyPressed)
+{
+	if (keyPressed == currPlayer.getLeft() || keyPressed == currPlayer.getRight() || keyPressed == currPlayer.getRotateClock() || keyPressed == currPlayer.getRotateAntiClock() || keyPressed == currPlayer.getDrop())
+		return true;
+	return false;
+}
+
 
 void game::playerTurn(player& currPlayer, char keyPressed)
 {
@@ -161,7 +173,7 @@ void game::playerTurn(player& currPlayer, char keyPressed)
 		{
 
 			currPlayer.board.deleteShape(currPlayer.currShape, minX, minY);
-			currPlayer.currShape.move('v');
+			currPlayer.currShape.move(DOWN);
 			currPlayer.board.saveShape(currPlayer.currShape, minX, minY);
 
 			currPlayer.board.printBoard(minX, minY);
@@ -185,7 +197,7 @@ void game::playerTurn(player& currPlayer, char keyPressed)
 
 }
 
-
+//moves the player who was sent current shape down by one block
 void game::moveShapedown(player& currPlayer, shape currShape, bool& flag)
 {
 	int minX = currPlayer.getMinX();
@@ -199,7 +211,7 @@ void game::moveShapedown(player& currPlayer, shape currShape, bool& flag)
 	if (goDown)
 	{
 		currPlayer.board.deleteShape(currPlayer.currShape, minX, minY);
-		currPlayer.currShape.move('v');
+		currPlayer.currShape.move(DOWN);
 		currPlayer.board.saveShape(currPlayer.currShape, minX, minY);
 		currPlayer.board.printBoard(minX, minY);
 	}
@@ -215,7 +227,7 @@ void game::moveShapedown(player& currPlayer, shape currShape, bool& flag)
 	}
 }
 
-
+//declare player that won and lost and gives option to go back to menu
 void game::endOfGame(bool flag1)
 {
 	system("cls");

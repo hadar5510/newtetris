@@ -2,6 +2,7 @@
 #define __GENERAL_H
 
 
+#define DOWN 'v'
 
 static constexpr int GAME_WIDTH = 12;
 static constexpr int GAME_HEIGHT = 18;

@@ -14,10 +14,6 @@ public:
 	char board[gameHeight][gameWidth];
 	int minRow;
 
-	void setMinRow(int row) { minRow = row; } //lo yodim
-	int getMinRow() { return minRow; }
-
-
 	
 	void checkFullLines();
 	void deleteLine(int line);

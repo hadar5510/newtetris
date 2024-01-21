@@ -1,5 +1,5 @@
 #include "shape.h"
-#define DOWN v
+
 
 //intializing shape
 void shape::init(int minX, int minY, int shapetype)
@@ -82,7 +82,7 @@ void shape::move(char keyPressed)
 {
 
 
-	if (keyPressed == 'v')
+	if (keyPressed == DOWN)
 	{
 		for (int i = 0; i < 4; i++)		//default going down
 		{

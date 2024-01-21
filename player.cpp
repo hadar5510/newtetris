@@ -11,5 +11,4 @@ void player::init(int minX, int minY, char left, char right, char drop, char rot
 	this->rotateClock = rotateClock;
 	this->flag = flag;
 
-
 }
