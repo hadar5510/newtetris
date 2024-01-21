@@ -6,6 +6,7 @@
 #include <stdbool.h>
 #include <cstdlib>
 #include <ctime>
+#include <cctype>
 
 #include "menu.h"
 
@@ -46,184 +47,177 @@ void game::run(player& player1, player& player2)
 	player2.currShape = currshape2;
 
 
-
 	player1.board.saveShape(currshape1, minX1, minY1);
 	player2.board.saveShape(currshape2, minX2, minY2);
 
 
-	player1.board.printBoard(minX1, minY1);
-	player2.board.printBoard(minX2, minY2);
-
-
-
-	//gotoxy(0, minY1 + GAME_HEIGHT + 5);
-
 	char keyPressed;
+	char p1char, p2char;
+	int goingDownCounter = 0;
 
-	//the game
+	//THE GAME
 	while (flag1 == false && flag2 == false)
 	{
 
 		if (_kbhit())
 		{
 
-			keyPressed = _getch();
+			keyPressed = toupper(_getch());
+
+			p1char = NULL;
+			p2char = NULL;
+
+			// buffer workaround
+			if (keyPressed == 'A' || keyPressed == 'S' || keyPressed == 'D' || keyPressed == 'W' || keyPressed == 'X') {
+				p1char = keyPressed;
+				while (_kbhit()) {
+					char ch = toupper(_getch());
+					if (ch == 'J' || ch == 'L' || ch == 'K' || ch == 'I' || ch == 'M') {
+						p2char = ch;
+						break;
+					}
+				}
+			}
+
+			if (keyPressed == 'J' || keyPressed == 'L' || keyPressed == 'K' || keyPressed == 'I' || keyPressed == 'M') {
+				p2char = keyPressed;
+				while (_kbhit()) {
+					char ch = toupper(_getch());
+					if (ch == 'A' || ch == 'S' || ch == 'D' || ch == 'W' || ch == 'X')
+					{
+						p1char = ch;
+						break;
+					}
+				}
+			}
+			while (_kbhit()) 		//clearing input buffer
+				char ch = _getch();
+
+			if(p1char != NULL)
+				playerTurn(player1, p1char);
+			
+			if(p2char != NULL)
+				playerTurn(player2, p2char);
+
+
 
 			if (keyPressed == 27)		//pausing game
+			{
 				menu.gameMenu(true);
-
-			bool isLegal = true;
-
-			//add upper/lower func
-			//move PLAYER 1
-			if (keyPressed == 'a' || keyPressed == 's' || keyPressed == 'd' || keyPressed == 'w' || keyPressed == 'x') {
-
-				isLegal = player1.board.checkShapeMoveLeftRight(player1.currShape, minX1, minY1, keyPressed);
-
-				if (keyPressed == 'x')		//drop
-				{
-					bool drop = true;
-
-					while (drop)
-					{
-
-						player1.board.deleteShape(player1.currShape, minX1, minY1);
-						player1.currShape.move('v');
-						player1.board.saveShape(player1.currShape, minX1, minY1);
-						
-						player1.board.printBoard(minX1, minY1);
-
-						drop = player1.board.checkShapeGoDown(player1.currShape, minX1, minY1);
-					}
-
-
-				}
-
-				//go down
-				if (isLegal && player1.board.checkShapeGoDown(player1.currShape, minX1, minY1))		
-				{
-					player1.board.deleteShape(player1.currShape, minX1, minY1);
-					player1.currShape.move(keyPressed);
-					player1.board.saveShape(player1.currShape, minX1, minY1);
-				}
-
-				
-				player1.board.printBoard(minX1, minY1);
+				player1.board.drawBorder(minX1, minY1);
+				player2.board.drawBorder(minX2, minY2);
 			}
-
-			//move PLAYER 2
-			if (keyPressed == 'j' || keyPressed == 'l' || keyPressed == 'k' || keyPressed == 'i' || keyPressed == 'm') {
-
-				isLegal = player2.board.checkShapeMoveLeftRight(player2.currShape, minX2, minY2, keyPressed);
-
-				if (keyPressed == 'm')
-				{
-					bool drop = true;
-
-					while (drop)
-					{
-
-						player2.board.deleteShape(player2.currShape, minX2, minY2);
-						player2.currShape.move('v');
-						player2.board.saveShape(player2.currShape, minX2, minY2);
-
-						player2.board.printBoard(minX2, minY2);
-
-
-						drop = player2.board.checkShapeGoDown(player2.currShape, minX2, minY2);
-					}
-				}
-
-				//go down
-				else if (isLegal && player2.board.checkShapeGoDown(player2.currShape, minX2, minY2))
-				{
-					player2.board.deleteShape(player2.currShape, minX2, minY2);
-					player2.currShape.move(keyPressed);
-					player2.board.saveShape(player2.currShape, minX2, minY2);
-				}
-
-				
-				player2.board.printBoard(minX2, minY2);
-			}
-
+			
 
 		}
+		
+		if (goingDownCounter == 0) {
+			moveShapedown(player1, currshape1, flag1);
 
-
-
-		bool goDown1 = true;
-		bool goDown2 = true;
-
-		goDown1 = player1.board.checkShapeGoDown(player1.currShape, minX1, minY1);
-
-
-
-		//go down always
-		if (goDown1)
-		{
-			player1.board.deleteShape(player1.currShape, minX1, minY1);
-			player1.currShape.move('v');
-			player1.board.saveShape(player1.currShape, minX1, minY1);
-			player1.board.printBoard(minX1, minY1);
-		}
-		else
-		{
-			player1.board.checkFullLines();
-			player1.board.printBoard(minX1, minY1);
-			currshape1.init(minX1, minY1, std::rand() % 7);
-			player1.currShape = currshape1;
-			flag1 = player1.board.checkGameOver(player1.currShape, minX1, minY1);
-			player1.board.saveShape(player1.currShape, minX1, minY1);
-			player1.board.printBoard(minX1, minY1);
+			moveShapedown(player2, currshape1, flag2);
 		}
 
-
-		goDown2 = player2.board.checkShapeGoDown(player2.currShape, minX2, minY2);
-
-		if (goDown2)
-		{
-			player2.board.deleteShape(player2.currShape, minX2, minY2);
-			player2.currShape.move('v');
-			player2.board.saveShape(player2.currShape, minX2, minY2);
-			player2.board.printBoard(minX2, minY2);
-		}
-		else
-		{
-			player2.board.checkFullLines();
-			player2.board.printBoard(minX2, minY2);
-			currshape2.init(minX2, minY2, std::rand() % 7);
-			player2.currShape = currshape2;
-			flag2 = player2.board.checkGameOver(player2.currShape, minX2, minY2);
-			player2.board.saveShape(player2.currShape, minX2, minY2);
-			player2.board.printBoard(minX2, minY2);
-		}
+		goingDownCounter = (goingDownCounter + 1) % 20;		//going down every  seconds
+	
 
 
-		Sleep(400);
-
-
+		Sleep(17);
+	
 	}
-
-
 
 	//winner announce
 	system("cls");
 	gotoxy(MIN_X + GAME_WIDTH, 2);
 	if (flag1)
 		cout << "Player 1 LOST,  Player 2 is the WINNER";
-	
+
 	else
 		cout << "Player 2 LOST,  Player 1 is the WINNER";
-	
+
+	Sleep(1000);
 	gotoxy(MIN_X + GAME_WIDTH, 8);
-	cout << "Press any key to go back to menu"; 
+	cout << "Press any key to go back to menu";
+
+	while (_kbhit()) 		//clearing input buffer
+		char ch = _getch();
 	
-	if (char t = _getch())
-	{
-		
-		menu.gameMenu(false);
-	}
+	char t = _getch();
+	
+	menu.gameMenu(false);		//start new game
+	
+}
 	
 	
 
+void game::playerTurn(player& currPlayer, char keyPressed)
+{
+	bool isLegal = true;
+	int minX = currPlayer.getMinX();
+	int minY = currPlayer.getMinY();
+
+
+	isLegal = currPlayer.board.checkShapeMoveLeftRight(currPlayer.currShape, minX, minY, keyPressed);
+
+	char dropkey = currPlayer.getDrop();		//amount player can drop shape
+
+	if (keyPressed == dropkey)		//drop
+	{
+		bool drop = true;
+
+		while (drop)
+		{
+
+			currPlayer.board.deleteShape(currPlayer.currShape, minX, minY);
+			currPlayer.currShape.move('v');
+			currPlayer.board.saveShape(currPlayer.currShape, minX, minY);
+
+			currPlayer.board.printBoard(minX, minY);
+
+			drop = currPlayer.board.checkShapeGoDown(currPlayer.currShape, minX, minY);
+		}
+
+	}
+
+	//go down
+	if (isLegal && currPlayer.board.checkShapeGoDown(currPlayer.currShape, minX, minY))
+	{
+		currPlayer.board.deleteShape(currPlayer.currShape, minX, minY);
+		currPlayer.currShape.move(keyPressed);
+		currPlayer.board.saveShape(currPlayer.currShape, minX, minY);
+	}
+
+
+	currPlayer.board.printBoard(minX, minY);
+	
+
+}
+
+
+void game::moveShapedown(player& currPlayer, shape currShape, bool& flag)
+{
+	int minX = currPlayer.getMinX();
+	int minY = currPlayer.getMinY();
+	bool goDown = true;
+
+	goDown = currPlayer.board.checkShapeGoDown(currPlayer.currShape, minX, minY);
+
+
+	//go down always
+	if (goDown)
+	{
+		currPlayer.board.deleteShape(currPlayer.currShape, minX, minY);
+		currPlayer.currShape.move('v');
+		currPlayer.board.saveShape(currPlayer.currShape, minX, minY);
+		currPlayer.board.printBoard(minX, minY);
+	}
+	else
+	{
+		currPlayer.board.checkFullLines();
+		currPlayer.board.printBoard(minX, minY);
+		currShape.init(minX, minY, std::rand() % 7);
+		currPlayer.currShape = currShape;
+		flag = currPlayer.board.checkGameOver(currPlayer.currShape, minX, minY);
+		currPlayer.board.saveShape(currPlayer.currShape, minX, minY);
+		currPlayer.board.printBoard(minX, minY);
+	}
 }

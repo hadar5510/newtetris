@@ -18,7 +18,7 @@ public:
 	int getMinRow() { return minRow; }
 
 
-	int checkDrop(shape shape, int minX, int minY);
+	
 	void checkFullLines();
 	void deleteLine(int line);
 	bool checkShapeMoveLeftRight(shape shape, int minX, int minY, char direction);

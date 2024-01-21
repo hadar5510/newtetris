@@ -22,8 +22,8 @@ public:
 	char getLeft() { return left; }
 	char getRight() { return right; }
 	char getDrop() { return drop; }
-	char getRotateClock() { return rotateClock; }
-	char getRotateAntiClock() { return rotateAntiClock; }
+	//char getRotateClock() { return rotateClock; }
+	//char getRotateAntiClock() { return rotateAntiClock; }
 	bool getFlag() { return flag; }
 	void setFlag(bool flag) { this->flag = flag; }
 
@@ -35,5 +35,5 @@ public:
 
 
 	//functions
-	bool isGameOver();
+	//bool isGameOver();
 };

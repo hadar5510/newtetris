@@ -95,8 +95,8 @@ void shape::move(char keyPressed)
 
 	switch (keyPressed)
 	{
-	case 'a':
-	case 'j':
+	case 'A':
+	case 'J':
 		//LEFT
 		for (int i = 0; i < 4; i++)
 		{
@@ -104,30 +104,30 @@ void shape::move(char keyPressed)
 		}
 
 		break;
-	case 'd':
-	case 'l':
+	case 'D':
+	case 'L':
 		//RIGHT
 		for (int i = 0; i < 4; i++)
 		{
 			body[i].x = body[i].x + 1;
 		}
 		break;
-	case 'x':
-	case 'm':
+	case 'X':
+	case 'M':
 		//DROP
 		for (int i = 0; i < 4; i++)
 		{
 			body[i].y = body[i].y + 1;
 		}
 		break;
-	case 's':
-	case 'k':
+	case 'S':
+	case 'K':
 		//CLOCKWISE
 		rotate(1);
 
 		break;
-	case 'w':
-	case 'i':
+	case 'W':
+	case 'I':
 		//ANTICLOCKWISE
 
 		rotate(2);

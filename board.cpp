@@ -130,11 +130,8 @@ void board::deleteLine(int line)
 {
 
 	for (int i = 0; i < this->gameWidth; i++)
-	{
 		board[line][i] = ' ';
-		/*Sleep(70);*/
-
-	}
+		
 
 	int row = line;
 
@@ -148,9 +145,8 @@ void board::deleteLine(int line)
 
 
 	for (int j = 0; j < this->gameWidth; j++)
-	{
 		board[0][j] = ' ';
-	}
+
 
 
 
@@ -198,19 +194,6 @@ bool board::checkShapeGoDown(shape shape, int minX, int minY)
 }
 
 
-//
-//int board::checkDrop(shape shape, int minX, int minY)
-//{
-//	bool down = true;
-//
-//
-//
-//
-//
-//
-//
-//}
-//
 
 
 
@@ -219,7 +202,7 @@ bool board::checkShapeMoveLeftRight(shape shape, int minX, int minY, char direct
 
 	bool legal = true;
 
-	if (direction == 'a' || direction == 'j') //LEFT
+	if (direction == 'A' || direction == 'J') //LEFT
 	{
 		for (int i = 0; i < 4; i++)
 		{

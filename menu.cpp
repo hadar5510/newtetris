@@ -18,61 +18,60 @@ void menu::gameMenu(bool isPaused)
 	bool gameFlag = true;
 	
 
-	//fix paused game
-	if (isPaused == true)
+	while (gameFlag)
 	{
 		system("cls");
-		cout << "(2) - Continue a paused game" << endl;
-		game1.run(player1, player2);
-	}
 
-	else if (isPaused == false)
-	{
-		while (gameFlag)
+
+		gotoxy(50, 0);
+		cout << "TETRIS GAME :)" << endl << endl;
+
+		cout << "game rules: " << endl << endl << endl << "(1) - start new game" << endl << endl << "(8) - Present instructions and keys" << endl << endl << "(9) -  EXIT" << endl;
+
+
+		if (isPaused)			
+			cout << endl << "(2) - Continue a paused game" << endl;
+			
+		
+		ch = _getch();
+
+		if (ch == '2')		//continue paused game
 		{
 			system("cls");
+			return;
+		}
 
 
-			gotoxy(50, 0);
-			cout << "TETRIS GAME :)" << endl << endl;
+		if (ch == '1')		//start new game
+		{
+			system("cls");
+			player1.init(MIN_X, MIN_Y, 'A', 'D', 'X', 'S', 'W', false);
+			player2.init(MIN_X * 2 + 12, MIN_Y, 'J', 'L', 'M', 'K', 'I', false);
 
-			cout << "game rules: " << endl << endl << "(1) - start new game" << endl << "(8) - Present instructions and keys" << endl << "(9) -  EXIT" << endl;
+			game1.run(player1, player2);
+		}
 
+		
+
+		if (ch == '8')		//Present instructions and keys
+		{
+			system("cls");
+			cout << "INSTRUCTIONS: " << endl << endl;
+			cout << "LEFT PLAYER:  " << endl << "Move left - a/A" << endl << "Move right - d/D" << endl << "ROTATE clockwise - s/S" << endl << "ROTATE counterclockwise - w/W" << endl << "Drop - x/X" << endl << endl;
+			cout << "LEFT PLAYER:  " << endl << "Move left - j/J" << endl << "Move right - l/L" << endl << "ROTATE clockwise - k/K" << endl << "ROTATE counterclockwise - i/I" << endl << "Drop - m/M" << endl << endl;
+
+			cout << " - Press anything to go back to menu -" << endl << endl;
 			ch = _getch();
 
-			if (ch == '1')		//start new game
-			{
-				system("cls");
-				player1.init(MIN_X, MIN_Y, 'a', 'd', 'x', 's', 'w', false);
-				player2.init(MIN_X * 2 + 12, MIN_Y, 'j', 'l', 'm', 'k', 'i', false);
+			//if(_kbhit)
+		}
 
-				game1.run(player1, player2);
-			}
-
-			//if (ch == '2')		//Continue a paused game
-			//{
-
-			//}
-
-			if (ch == '8')		//Present instructions and keys
-			{
-				system("cls");
-				cout << "INSTRUCTIONS: " << endl << endl;
-				cout << "LEFT PLAYER:  " << endl << "Move left - a/A" << endl << "Move right - d/D" << endl << "ROTATE clockwise - s/S" << endl << "ROTATE counterclockwise - w/W" << endl << "Drop - x/X" << endl << endl;
-				cout << "LEFT PLAYER:  " << endl << "Move left - j/J" << endl << "Move right - l/L" << endl << "ROTATE clockwise - k/K" << endl << "ROTATE counterclockwise - i/I" << endl << "Drop - m/M" << endl << endl;
-
-				cout << " - Press anything to go back to menu -" << endl << endl;
-				ch = _getch();
-
-				//if(_kbhit)
-			}
-
-			if (ch == '9')		//EXIT
-			{
-				gameFlag = false;
-			}
+		if (ch == '9')		//EXIT
+		{
+			gameFlag = false;
 		}
 	}
+	
 	
 
 
