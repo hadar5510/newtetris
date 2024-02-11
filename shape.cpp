@@ -9,7 +9,7 @@ void shape::init(int minX, int minY, int shapetype)
 
 	switch (shapetype)
 	{
-	case 0: //LL
+	case L_LEFT: 
 
 
 
@@ -18,7 +18,7 @@ void shape::init(int minX, int minY, int shapetype)
 		body[2] = point(minX + GAME_WIDTH / 2, minY + 2);
 		body[3] = point(minX + GAME_WIDTH / 2 - 1, minY + 2);
 		break;
-	case 1: //LR
+	case L_RIGHT: 
 
 
 
@@ -27,7 +27,7 @@ void shape::init(int minX, int minY, int shapetype)
 		body[2] = point(minX + GAME_WIDTH / 2, minY + 2);
 		body[3] = point(minX + GAME_WIDTH / 2 + 1, minY + 2);
 		break;
-	case 2: //T
+	case T_SHAPE: 
 
 
 
@@ -36,25 +36,21 @@ void shape::init(int minX, int minY, int shapetype)
 		body[2] = point(minX + GAME_WIDTH / 2 - 1, minY);
 		body[3] = point(minX + GAME_WIDTH / 2, minY + 1);	 //chupchik of T shape
 		break;
-	case 3: //I
-
-
+	case LINE: 
 
 		body[0] = point(minX + GAME_WIDTH / 2, minY);
 		body[1] = point(minX + GAME_WIDTH / 2, minY + 1);
 		body[2] = point(minX + GAME_WIDTH / 2, minY + 2);
 		body[3] = point(minX + GAME_WIDTH / 2, minY + 3);
 		break;
-	case 4: //SQ
-
-
+	case SQUARE: 
 
 		body[0] = point(minX + GAME_WIDTH / 2, minY);
 		body[1] = point(minX + GAME_WIDTH / 2 + 1, minY);
 		body[2] = point(minX + GAME_WIDTH / 2, minY + 1);
 		body[3] = point(minX + GAME_WIDTH / 2 + 1, minY + 1);
 		break;
-	case 5: //ZL
+	case Z_LEFT: 
 
 
 
@@ -63,7 +59,7 @@ void shape::init(int minX, int minY, int shapetype)
 		body[2] = point(minX + GAME_WIDTH / 2, minY + 1);
 		body[3] = point(minX + GAME_WIDTH / 2 + 1, minY + 1);
 		break;
-	case 6: //ZR
+	case Z_RIGHT: 
 
 
 		body[0] = point(minX + GAME_WIDTH / 2, minY);
@@ -106,9 +102,8 @@ void shape::move(char keyPressed)
 	case 'L':
 		//RIGHT
 		for (int i = 0; i < 4; i++)
-		{
 			body[i].x = body[i].x + 1;
-		}
+		
 		break;
 	case 'X':
 	case 'M':
@@ -120,15 +115,14 @@ void shape::move(char keyPressed)
 		break;
 	case 'S':
 	case 'K':
-		//CLOCKWISE
-		rotate(1);
+		
+		rotate(CLOCKWISE);
 
 		break;
 	case 'W':
 	case 'I':
-		//ANTICLOCKWISE
-
-		rotate(2);
+		
+		rotate(ANTI_CLOCKWISE);
 
 		break;
 	}
@@ -141,12 +135,12 @@ void shape::move(char keyPressed)
 void shape::rotate(int direction)
 {
 
-	if (direction == 1)
+	if (direction == CLOCKWISE)
 	{
 
 		switch (this->type)
 		{
-		case 0: //LL
+		case L_LEFT: //LL
 
 			if (this->shapeDirection == 'N')
 			{
@@ -185,7 +179,7 @@ void shape::rotate(int direction)
 			}
 
 			break;
-		case 1: //LR
+		case L_RIGHT: //LR
 
 			if (this->shapeDirection == 'N')
 			{
@@ -222,7 +216,7 @@ void shape::rotate(int direction)
 				break;
 			}
 			break;
-		case 2: //T
+		case T_SHAPE: //T
 
 
 			if (this->shapeDirection == 'N')
@@ -253,7 +247,7 @@ void shape::rotate(int direction)
 				break;
 			}
 			break;
-		case 3: //I
+		case LINE: //I
 
 			if (this->shapeDirection == 'N')
 			{
@@ -289,10 +283,10 @@ void shape::rotate(int direction)
 				break;
 			}
 			break;
-		case 4: //SQ
+		case SQUARE: //SQ
 			//square is the same
 			break;
-		case 5: //ZL
+		case Z_LEFT: //ZL
 			if (this->shapeDirection == 'N')
 			{
 
@@ -324,7 +318,7 @@ void shape::rotate(int direction)
 				break;
 			}
 			break;
-		case 6: //ZR
+		case Z_RIGHT: //ZR
 
 			if (this->shapeDirection == 'N')
 			{
@@ -366,12 +360,12 @@ void shape::rotate(int direction)
 
 
 
-	if (direction == 2)
+	if (direction == ANTI_CLOCKWISE)
 	{
 
 		switch (this->type)
 		{
-		case 0: //LL
+		case L_LEFT: 
 
 			if (this->shapeDirection == 'N')
 			{
@@ -410,7 +404,7 @@ void shape::rotate(int direction)
 			}
 
 			break;
-		case 1: //LR
+		case L_RIGHT: 
 
 			if (this->shapeDirection == 'N')
 			{
@@ -445,7 +439,7 @@ void shape::rotate(int direction)
 				break;
 			}
 			break;
-		case 2: //T
+		case T_SHAPE: 
 
 
 			if (this->shapeDirection == 'N')
@@ -476,7 +470,7 @@ void shape::rotate(int direction)
 				break;
 			}
 			break;
-		case 3: //I
+		case LINE: 
 
 			if (this->shapeDirection == 'N')
 			{
@@ -512,10 +506,10 @@ void shape::rotate(int direction)
 				break;
 			}
 			break;
-		case 4: //SQ
+		case SQUARE: 
 			//square is the same
 			break;
-		case 5: //ZL
+		case Z_LEFT: 
 			if (this->shapeDirection == 'N')
 			{
 
@@ -547,7 +541,7 @@ void shape::rotate(int direction)
 				break;
 			}
 			break;
-		case 6: //ZR
+		case Z_RIGHT: 
 
 			if (this->shapeDirection == 'N')
 			{

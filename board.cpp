@@ -7,39 +7,31 @@
 using namespace std;
 
 
+//drwaing the fixed borders of the board
 void board::drawBorder(int minX, int minY)
 {
 	for (int col = minX; col < gameWidth + minX; col++)
 	{
-		gotoxy(col, minY - 1); //top of the board
+		gotoxy(col, minY - 1);					//top of the board
 		cout << "-";
-
-		gotoxy(col, minY + GAME_HEIGHT); //bottom of the board
+		gotoxy(col, minY + GAME_HEIGHT);		//bottom of the board
 		cout << "-";
-
 	}
-
 
 	for (int row = minY - 1; row <= GAME_HEIGHT + minY; row++)
 	{
-
-		gotoxy(minX - 1, row);		//left border
+		gotoxy(minX - 1, row);				//left border
 		cout << "|";
-
-
-		gotoxy(GAME_WIDTH + minX, row); //right border
+		gotoxy(GAME_WIDTH + minX, row);		//right border
 		cout << "|";
-
 	}
 }
-
 
 
 void board::printBoard(int minX, int minY)
 {
 	for (int row = 0; row < gameHeight; row++)
 	{
-
 		for (int col = 0; col < gameWidth; col++)
 		{
 			gotoxy(minX + col, minY + row);
@@ -50,23 +42,17 @@ void board::printBoard(int minX, int minY)
 }
 
 
-
 void board::init()
 {
 	for (int row = 0; row < gameHeight; row++)
 	{
-
 		for (int col = 0; col < gameWidth; col++)
-		{
-
 			board[row][col] = ' ';
-		}
-
 	}
 }
 
 
-
+//saves the new shape to the board
 void board::saveShape(shape shape, int x, int y)
 {
 	int col, row;		//x = minX y = minY
@@ -81,7 +67,6 @@ void board::saveShape(shape shape, int x, int y)
 }
 
 
-
 void board::deleteShape(shape shape, int x, int y)
 {
 	int col, row;		//x = minX y = minY
@@ -93,15 +78,11 @@ void board::deleteShape(shape shape, int x, int y)
 
 		board[row][col] = ' ';
 	}
-
-
-
 }
 
-
+//this function checks and deletes the full lines
 void board::checkFullLines()
 {
-
 	int counter = 0;
 
 	for (int i = this->gameHeight - 1; i >= 0; i--)
@@ -111,22 +92,16 @@ void board::checkFullLines()
 		for (int j = 0; j < this->gameWidth; j++)
 		{
 			if (board[i][j] != ' ')
-			{
 				counter++;
-			}
 			else
-			{
 				break;
-			}
 		}
 
 		if (counter == this->gameWidth)
-		{
 			deleteLine(i);
-		}
+
 	}
 }
-
 
 
 void board::deleteLine(int line)
@@ -134,29 +109,22 @@ void board::deleteLine(int line)
 
 	for (int i = 0; i < this->gameWidth; i++)
 		board[line][i] = ' ';
-		
 
 	int row = line;
 
 	for (row; row > 0; row--)
 	{
 		for (int col = 0; col < this->gameWidth; col++)
-		{
 			board[row][col] = board[row - 1][col];
-		}
-	}
 
+	}
 
 	for (int j = 0; j < this->gameWidth; j++)
 		board[0][j] = ' ';
-
-
-
-
 }
 
 
-
+//check if the shape can go down
 bool board::checkShapeGoDown(shape shape, int minX, int minY)
 {
 	bool legal = true;
@@ -166,23 +134,22 @@ bool board::checkShapeGoDown(shape shape, int minX, int minY)
 		int col = shape.body[i].x - minX;
 		int row = shape.body[i].y - minY;
 
-		// Check if we are not already at the bottom
+		//check if we are not already at the bottom
 		if (row < minY + this->gameHeight - 1)
 		{
-			// Check if the square below is not empty
+			//check if the square below is not empty
 			if (board[row + 1][col] != ' ')
 			{
 				int counter = 0;
-				// Check if the square below is not himself
+				//check if the square below is not himself
 				for (int j = 0; j < 4; j++)
 				{
 					int colC = shape.body[j].x - minX;
 					int rowC = shape.body[j].y - minY;
 
 					if (row + 1 == rowC && col == colC)
-					{
 						counter++;
-					}
+
 				}
 
 				if (counter == 0)
@@ -193,25 +160,59 @@ bool board::checkShapeGoDown(shape shape, int minX, int minY)
 			}
 		}
 	}
+
+	return legal;
+
+}
+
+
+//check if shape can rotate
+bool board::checkShapeRotate(shape shape, int minX, int minY, char direction)
+{
+	bool legal = true;
+	int shapeType = shape.getShapeType();
+
+	for (int i = 0; i < 4; i++)
+	{
+		int col = shape.body[i].x - minX;
+		int row = shape.body[i].y - minY;
+		if (shapeType == L_LEFT || shapeType == L_RIGHT || shapeType == LINE)
+		{
+			if (col <= 1 || col >= 11)
+			{
+				legal = false;
+				break;
+			}
+		}
+		else
+		{
+			if (col <= 0 || col >= 12)
+			{
+				legal = false;
+				break;
+			}
+		}
+		
+	}
+
 	return legal;
 
 }
 
 
 
+//check if the shape can move left or right
 bool board::checkShapeMoveLeftRight(shape shape, int minX, int minY, char direction)
 {
 
 	bool legal = true;
 
-	if (direction == 'A' || direction == 'J') //LEFT
+	if (direction == 'A' || direction == 'J')				//LEFT
 	{
 		for (int i = 0; i < 4; i++)
 		{
 			int col = shape.body[i].x - minX;
 			int row = shape.body[i].y - minY;
-
-			/*cout << col;*/
 
 			if (col == 0)
 			{
@@ -220,20 +221,19 @@ bool board::checkShapeMoveLeftRight(shape shape, int minX, int minY, char direct
 			}
 			else
 			{
-				// Check if the square to the left is not empty
+				//check if the square to the left is not empty
 				if (board[row][col - 1] != ' ')
 				{
 					int counter = 0;
-					// Check if the square to the left is not himself
+					//check if the square to the left is not himself
 					for (int j = 0; j < 4; j++)
 					{
 						int colC = shape.body[j].x - minX;
 						int rowC = shape.body[j].y - minY;
 
 						if (row == rowC && col - 1 == colC)
-						{
 							counter++;
-						}
+
 					}
 
 					if (counter == 0)
@@ -242,21 +242,14 @@ bool board::checkShapeMoveLeftRight(shape shape, int minX, int minY, char direct
 						break;
 					}
 				}
-
-
 			}
-
-
-
-
 		}
-
 	}
 
 
 
 	else
-	{										//check move to the right
+	{														//check move to the right
 
 		for (int i = 0; i < 4; i++)
 		{
@@ -271,20 +264,18 @@ bool board::checkShapeMoveLeftRight(shape shape, int minX, int minY, char direct
 			}
 			else
 			{
-				// Check if the square to the right is not empty
+				//check if the square to the right is not empty
 				if (board[row][col + 1] != ' ')
 				{
 					int counter = 0;
-					// Check if the square to the right is not himself
+					//check if the square to the right is not himself
 					for (int j = 0; j < 4; j++)
 					{
 						int colC = shape.body[j].x - minX;
 						int rowC = shape.body[j].y - minY;
 
 						if (row == rowC && col + 1 == colC)
-						{
 							counter++;
-						}
 					}
 
 					if (counter == 0)
@@ -307,13 +298,11 @@ bool board::checkShapeMoveLeftRight(shape shape, int minX, int minY, char direct
 
 
 
-
 bool board::checkGameOver(shape newShape, int minX, int minY)
 {
 	bool gameOver = false;
-
-	int col, row;		//x = minX y = minY
-
+	int col, row;
+	//if the new shape cant go in to the board - game is over
 	for (int i = 0; i < 4; i++)
 	{
 		col = newShape.body[i].x - minX;
@@ -325,9 +314,5 @@ bool board::checkGameOver(shape newShape, int minX, int minY)
 			break;
 		}
 	}
-
 	return gameOver;
-
-
-
 }

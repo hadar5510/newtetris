@@ -16,7 +16,7 @@ void menu::gameMenu(bool isPaused)
 	game game;
 	char ch;
 	bool gameFlag = true;
-	
+
 
 	while (gameFlag)
 	{
@@ -29,10 +29,10 @@ void menu::gameMenu(bool isPaused)
 		cout << "game rules: " << endl << endl << endl << "(1) - start new game" << endl << endl << "(8) - Present instructions and keys" << endl << endl << "(9) -  EXIT" << endl;
 
 
-		if (isPaused)			
+		if (isPaused)
 			cout << endl << "(2) - Continue a paused game" << endl;
-			
-		
+
+
 		ch = _getch();
 
 		if (ch == '2')		//continue paused game
@@ -51,7 +51,7 @@ void menu::gameMenu(bool isPaused)
 			game.run(player1, player2);
 		}
 
-		
+
 
 		if (ch == '8')		//Present instructions and keys
 		{
@@ -70,5 +70,5 @@ void menu::gameMenu(bool isPaused)
 			gameFlag = false;
 		}
 	}
-	
+
 }

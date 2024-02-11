@@ -1,5 +1,6 @@
 #include "player.h"
 
+//initializes player
 void player::init(int minX, int minY, char left, char right, char drop, char rotateClock, char rotateAntiClock, bool flag)
 {
 	this->minX = minX;

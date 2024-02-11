@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __POINT_H
+#define __POINT_H
 #include <stdbool.h>
 #include "general.h"
 
@@ -19,6 +20,6 @@ public:
 	}
 
 	void init(int x, int y);
-	void draw(char ch, int backcolor);
 
 };
+#endif

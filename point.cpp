@@ -14,10 +14,3 @@ void point::init(int x, int y)
 	diff_y = 0;
 }
 
-
-void point::draw(char ch, int backcolor)
-{
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), backcolor);
-	gotoxy(x + MIN_X - 1, y + MIN_Y - 1);
-	cout << ch;
-}

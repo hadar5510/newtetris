@@ -1,23 +1,22 @@
-#pragma once
+#ifndef __BOARD_H
+#define __BOARD_H
 #include "shape.h"
 #include "general.h"
 
 
 class board
 {
-
-private:
-
 public:
-	static constexpr int gameWidth = 12;
+	static constexpr int gameWidth = 12;		//fixed board size
 	static constexpr int gameHeight = 18;
 	char board[gameHeight][gameWidth];
-	int minRow;
 
-	
+
+
 	void checkFullLines();
 	void deleteLine(int line);
 	bool checkShapeMoveLeftRight(shape shape, int minX, int minY, char direction);
+	bool checkShapeRotate(shape shape, int minX, int minY, char direction);
 	bool checkShapeGoDown(shape shape, int minX, int minY);
 	void saveShape(shape shape, int x, int y);
 	void deleteShape(shape shape, int x, int y);
@@ -28,3 +27,5 @@ public:
 
 
 };
+
+#endif
