@@ -14,18 +14,17 @@ using namespace std;
 
 //plays the game
 
-void game::run(player& player1, player& player2)
+void Game::run(Player& player1, Player& player2, bool isColoredGame) const
 {
 	//initializing game variables
-	menu menu;
+	Menu menu;
 	char keyPressed;
-	int minX1, minY1, minX2, minY2, goingDownCounter = 0;
+	int goingDownCounter = 0;
 	bool flag1, flag2;						//flag checks if player won
-	shape currshape1, currshape2;
+	Shape currshape1, currshape2;
 
-	gameInitialization(player1, minX1, minY1, flag1, currshape1);
-
-	gameInitialization(player2, minX2, minY2, flag2, currshape2);
+	gameInitialization(player1, flag1, currshape1);
+	gameInitialization(player2, flag2, currshape2);
 
 	//THE GAME
 	while (flag1 == false && flag2 == false)
@@ -39,8 +38,8 @@ void game::run(player& player1, player& player2)
 			if (keyPressed == ESC)						//pausing game
 			{
 				menu.gameMenu(true);
-				player1.board.drawBorder(minX1, minY1);		//if the game is resumed drawing borders again
-				player2.board.drawBorder(minX2, minY2);
+				player1.board.drawBorder();		//if the game is resumed drawing borders again
+				player2.board.drawBorder();
 			}
 		}
 
@@ -67,27 +66,25 @@ void game::run(player& player1, player& player2)
 
 
 //initializing players and drawing boards
-void game::gameInitialization(player& currPlayer, int& minX, int& minY, bool& flag, shape& currshape)
+void Game::gameInitialization(Player& currPlayer, bool& flag, Shape& currshape) const
 {
 	//drawing player border according to minX minY
-	minX = currPlayer.getMinX();
-	minY = currPlayer.getMinY();
-	currPlayer.board.drawBorder(minX, minY);
+	int minX = currPlayer.getMinX();
+	int minY = currPlayer.getMinY();
+	currPlayer.board.drawBorder();
 
 	flag = currPlayer.getFlag();
 
-	currPlayer.board.init();							//initializes board and shape (random from 7 shapes)
-	currPlayer.board.init();
 
 	currshape.init(minX, minY, std::rand() % 7);
 	currPlayer.currShape = currshape;
 
-	currPlayer.board.saveShape(currshape, minX, minY);
+	currPlayer.board.saveShape(currshape);
 }
 
 
 //a key was pressed - this function plays the turn accordingly
-void game::gameturn(player& player1, player& player2, char keyPressed)
+void Game::gameturn(Player& player1, Player& player2, char keyPressed) const
 {
 	char p1char = NULL;
 	char p2char = NULL;
@@ -131,7 +128,7 @@ void game::gameturn(player& player1, player& player2, char keyPressed)
 
 
 //returns if the keypressed is of the player that has been sent
-bool game::isItPlayersKeys(player& currPlayer, char keyPressed)
+bool Game::isItPlayersKeys(Player& currPlayer, char keyPressed) const
 {
 	if (keyPressed == currPlayer.getLeft() || keyPressed == currPlayer.getRight() || keyPressed == currPlayer.getRotateClock() || keyPressed == currPlayer.getRotateAntiClock() || keyPressed == currPlayer.getDrop())
 		return true;
@@ -141,7 +138,7 @@ bool game::isItPlayersKeys(player& currPlayer, char keyPressed)
 
 
 //the function play the players turn
-void game::playerTurn(player& currPlayer, char keyPressed)
+void Game::playerTurn(Player& currPlayer, char keyPressed) const
 {
 	bool isLegal = true;
 	bool rotateLegal = true;
@@ -149,7 +146,7 @@ void game::playerTurn(player& currPlayer, char keyPressed)
 	int minY = currPlayer.getMinY();
 
 	//check if the move is legal
-	isLegal = currPlayer.board.checkShapeMoveLeftRight(currPlayer.currShape, minX, minY, keyPressed);
+	isLegal = currPlayer.board.checkShapeMoveLeftRight(currPlayer.currShape, keyPressed);
 
 
 	char dropkey = currPlayer.getDrop();
@@ -157,17 +154,17 @@ void game::playerTurn(player& currPlayer, char keyPressed)
 	if (keyPressed == dropkey)		//if drop was pressed, check if can move down and loop until cannot move down
 	{
 		bool drop = true;
-		drop = currPlayer.board.checkShapeGoDown(currPlayer.currShape, minX, minY);
+		drop = currPlayer.board.checkShapeGoDown(currPlayer.currShape);
 
 		while (drop)
 		{
-			currPlayer.board.deleteShape(currPlayer.currShape, minX, minY);
+			currPlayer.board.deleteShape(currPlayer.currShape);
 			currPlayer.currShape.move(DOWN);
-			currPlayer.board.saveShape(currPlayer.currShape, minX, minY);
+			currPlayer.board.saveShape(currPlayer.currShape);
 
-			currPlayer.board.printBoard(minX, minY);
+			currPlayer.board.printBoard();
 
-			drop = currPlayer.board.checkShapeGoDown(currPlayer.currShape, minX, minY);
+			drop = currPlayer.board.checkShapeGoDown(currPlayer.currShape);
 		}
 	}
 
@@ -176,88 +173,57 @@ void game::playerTurn(player& currPlayer, char keyPressed)
 
 	if (keyPressed == rotateKey1 || keyPressed == rotateKey2)
 	{
-
-		rotateLegal = currPlayer.board.checkShapeRotate(currPlayer.currShape, minX, minY, keyPressed);
+		rotateLegal = currPlayer.board.checkShapeRotate(currPlayer.currShape, keyPressed);
 	}
-
-																		//check if can rotate shape
-	/*if (keyPressed == rotateKey1 || keyPressed == rotateKey2)
-	{
-		rotateLegal = currPlayer.board.checkShapeRotate(currPlayer.currShape, minX, minY, keyPressed);
-		currPlayer.board.deleteShape(currPlayer.currShape, minX, minY);
-		currPlayer.currShape.move(keyPressed);
-		rotateLegal = currPlayer.board.checkShapeRotate(currPlayer.currShape, minX, minY, keyPressed);
-
-		if (rotateLegal)
-		{
-			currPlayer.board.saveShape(currPlayer.currShape, minX, minY);
-		}
-		else
-		{
-			if (keyPressed == rotateKey1)
-			{
-				currPlayer.board.deleteShape(currPlayer.currShape, minX, minY);
-				currPlayer.currShape.move(rotateKey2);
-				currPlayer.board.saveShape(currPlayer.currShape, minX, minY);
-			}
-			else
-			{
-				currPlayer.board.deleteShape(currPlayer.currShape, minX, minY);
-				currPlayer.currShape.move(rotateKey1);
-				currPlayer.board.saveShape(currPlayer.currShape, minX, minY);
-			}
-		}
-
-	}*/
 
 
 
 	//if the move is legal, and shape is not down then play the move
-	if (isLegal && currPlayer.board.checkShapeGoDown(currPlayer.currShape, minX, minY) && rotateLegal)
+	if (isLegal && currPlayer.board.checkShapeGoDown(currPlayer.currShape) && rotateLegal)
 	{
-		currPlayer.board.deleteShape(currPlayer.currShape, minX, minY);
+		currPlayer.board.deleteShape(currPlayer.currShape);
 		currPlayer.currShape.move(keyPressed);
-		currPlayer.board.saveShape(currPlayer.currShape, minX, minY);
+		currPlayer.board.saveShape(currPlayer.currShape);
 	}
 
 
-	currPlayer.board.printBoard(minX, minY);
+	currPlayer.board.printBoard();
 }
 
 
 //moves the player's current shape down by one block
-void game::moveShapedown(player& currPlayer, shape currShape, bool& flag)
+void Game::moveShapedown(Player& currPlayer, Shape currShape, bool& flag) const
 {
 	int minX = currPlayer.getMinX();
 	int minY = currPlayer.getMinY();
 	bool goDown = true;
 
 	//check if shape can go down
-	goDown = currPlayer.board.checkShapeGoDown(currPlayer.currShape, minX, minY);
+	goDown = currPlayer.board.checkShapeGoDown(currPlayer.currShape);
 
 
 	if (goDown)
 	{
-		currPlayer.board.deleteShape(currPlayer.currShape, minX, minY);
+		currPlayer.board.deleteShape(currPlayer.currShape);
 		currPlayer.currShape.move(DOWN);
-		currPlayer.board.saveShape(currPlayer.currShape, minX, minY);
-		currPlayer.board.printBoard(minX, minY);
+		currPlayer.board.saveShape(currPlayer.currShape);
+		currPlayer.board.printBoard();
 	}
 	else
 	{												//the turn ended - checking full lines to delete, and check if game over
 		currPlayer.board.checkFullLines();
-		currPlayer.board.printBoard(minX, minY);
+		currPlayer.board.printBoard();
 		currShape.init(minX, minY, std::rand() % 7);
 		currPlayer.currShape = currShape;
-		flag = currPlayer.board.checkGameOver(currPlayer.currShape, minX, minY);
-		currPlayer.board.saveShape(currPlayer.currShape, minX, minY);
-		currPlayer.board.printBoard(minX, minY);
+		flag = currPlayer.board.checkGameOver(currPlayer.currShape);
+		currPlayer.board.saveShape(currPlayer.currShape);
+		currPlayer.board.printBoard();
 	}
 }
 
 
 //declare player that won and lost and gives option to go back to menu
-void game::endOfGame(bool flag1)
+void Game::endOfGame(bool flag1) const
 {
 	system("cls");
 	gotoxy(MIN_X + GAME_WIDTH, 2);

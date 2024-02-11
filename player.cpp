@@ -1,7 +1,8 @@
 #include "player.h"
 
-//initializes player
-void player::init(int minX, int minY, char left, char right, char drop, char rotateClock, char rotateAntiClock, bool flag)
+
+
+Player::Player(int minX, int minY, char left, char right, char drop, char rotateClock, char rotateAntiClock, bool flag, bool isColoredGame) : board(minX, minY, isColoredGame)
 {
 	this->minX = minX;
 	this->minY = minY;
@@ -11,5 +12,5 @@ void player::init(int minX, int minY, char left, char right, char drop, char rot
 	this->rotateAntiClock = rotateAntiClock;
 	this->rotateClock = rotateClock;
 	this->flag = flag;
-
+	
 }

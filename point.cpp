@@ -6,11 +6,9 @@
 using namespace std;
 
 
-void point::init(int x, int y)
+void Point::init(int x, int y)
 {
 	this->x = x;
 	this->y = y;
-	diff_x = 1;
-	diff_y = 0;
-}
 
+}

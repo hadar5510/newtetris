@@ -1,7 +1,7 @@
 #pragma once
 #include "general.h"
 #include "game.h"
-class menu
+class Menu
 {
 
 public:

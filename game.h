@@ -3,22 +3,25 @@
 
 #include "player.h"
 #include "general.h"
-class menu;
+class Menu;
 
 
-class game
+class Game
 {
+private:
 
+	
 
 public:
 
-	void gameInitialization(player& currPlayer, int& minX, int& minY, bool& flag, shape& currshape);
-	void gameturn(player& player1, player& player2, char keyPressed);
-	bool isItPlayersKeys(player& currPlayer, char keyPressed);
-	void run(player& player1, player& player2);
-	void playerTurn(player& currPlayer, char keyPressed);
-	void moveShapedown(player& currPlayer, shape currShape, bool& flag);
-	void endOfGame(bool flag1);
+
+	void gameInitialization(Player& currPlayer, bool& flag, Shape& currshape) const;
+	void gameturn(Player& player1, Player& player2, char keyPressed) const;
+	bool isItPlayersKeys(Player& currPlayer, char keyPressed) const;
+	void run(Player& player1, Player& player2, bool isColoredGame) const;
+	void playerTurn(Player& currPlayer, char keyPressed) const;
+	void moveShapedown(Player& currPlayer, Shape currShape, bool& flag) const;
+	void endOfGame(bool flag1) const;
 };
 
 

@@ -10,10 +10,8 @@
 using namespace std;
 
 
-void menu::gameMenu(bool isPaused)
+void Menu::gameMenu(bool isPaused)
 {
-	player player1, player2;
-	game game;
 	char ch;
 	bool gameFlag = true;
 
@@ -21,7 +19,7 @@ void menu::gameMenu(bool isPaused)
 	while (gameFlag)
 	{
 		system("cls");
-
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
 
 		gotoxy(50, 0);
 		cout << "TETRIS GAME :)" << endl << endl;
@@ -45,10 +43,23 @@ void menu::gameMenu(bool isPaused)
 		if (ch == '1')		//start new game
 		{
 			system("cls");
-			player1.init(MIN_X, MIN_Y, 'A', 'D', 'X', 'S', 'W', false);
-			player2.init(MIN_X * 2 + 12, MIN_Y, 'J', 'L', 'M', 'K', 'I', false);
+			cout << "for game with colors press 1" << endl << "for game without colors press 2";
+			char c = _getch();
+			
+			bool isColoredGame;
 
-			game.run(player1, player2);
+			if (c == '1')
+				isColoredGame = true;
+			else
+				isColoredGame = false;
+
+			Player player1(MIN_X, MIN_Y, P1_LEFT, P1_RIGHT, P1_DROP, P1_ROTATE_CLOCK, P1_ROTATE_ANTI_CLOCK, false, isColoredGame);
+			Player player2(MIN_X * 2 + GAME_WIDTH, MIN_Y, P2_LEFT, P2_RIGHT, P2_DROP, P2_ROTATE_CLOCK, P2_ROTATE_ANTI_CLOCK, false, isColoredGame);
+
+			Game game;
+
+			system("cls");
+			game.run(player1, player2, isColoredGame);
 		}
 
 

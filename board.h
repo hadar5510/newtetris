@@ -2,28 +2,33 @@
 #define __BOARD_H
 #include "shape.h"
 #include "general.h"
+#include "boardCell.h"
 
-
-class board
+class Board
 {
-public:
-	static constexpr int gameWidth = 12;		//fixed board size
-	static constexpr int gameHeight = 18;
-	char board[gameHeight][gameWidth];
+private:
+	int minX, minY;
+	bool isColoredGame;
+	static constexpr int gameWidth = GAME_WIDTH;		//fixed board size
+	static constexpr int gameHeight = GAME_HEIGHT;
+	BoardCell board[gameHeight][gameWidth];
 
+	void deleteLine(int line);
+
+public:
+	Board() = default;
+	Board(int minX, int minY, bool isColoredGame);
 
 
 	void checkFullLines();
-	void deleteLine(int line);
-	bool checkShapeMoveLeftRight(shape shape, int minX, int minY, char direction);
-	bool checkShapeRotate(shape shape, int minX, int minY, char direction);
-	bool checkShapeGoDown(shape shape, int minX, int minY);
-	void saveShape(shape shape, int x, int y);
-	void deleteShape(shape shape, int x, int y);
-	void init();
-	void printBoard(int minX, int minY);
-	void drawBorder(int minX, int minY);
-	bool checkGameOver(shape newShape, int minX, int minY);
+	bool checkShapeMoveLeftRight(Shape& shape, char direction);
+	bool checkShapeRotate(Shape& currshape, char direction) const;
+	bool checkShapeGoDown(Shape& shape) ;
+	void saveShape(Shape& shape);
+	void deleteShape(Shape& shape);
+	void printBoard() ;
+	void drawBorder() const;
+	bool checkGameOver(Shape& newShape) ;
 
 
 };

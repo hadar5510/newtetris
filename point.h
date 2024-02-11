@@ -3,23 +3,27 @@
 #include <stdbool.h>
 #include "general.h"
 
-class point
+class Point
 {
-public:
+private:
 	int x;
 	int y;
-	int diff_x;
-	int diff_y;
+
+public:
 
 
-	point(int x, int y) {
+
+	Point(int x, int y) {
 		this->init(x, y);
 	}
-	point() {
+	Point() {
 		this->init(0, 0);
 	}
 
 	void init(int x, int y);
+
+	friend class Shape;
+	friend class Board;
 
 };
 #endif
